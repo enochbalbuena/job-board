@@ -1,0 +1,6 @@
+{
+    "exec": "node app.js",
+    "ext": "js json",
+    "watch": ["app.js", "routes", "controllers", "models"]
+  }
+  
