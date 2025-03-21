@@ -11,14 +11,16 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:3000',
-        description: 'Local Development Server',
+        url: 'https://job-board-ccym.onrender.com',
+        description: 'Production Server (Render)',
       },
       {
-        url: 'https://job-board-ccym.onrender.com', 
-        description: 'Production Server (Render)',
+        url: 'http://localhost:3000',
+        description: 'Local Development Server',
       }
     ],
+    basePath: '/',
+    schemes: ['https', 'http'],
     components: {
       schemas: {
         Job: {
