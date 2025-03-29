@@ -3,6 +3,8 @@ const router = express.Router();
 const jobsController = require('../controllers/jobsController');
 const validateRequest = require('../middleware/validateRequest');
 const jobSchema = require('../validation/jobValidation');
+const { isAuthenticated } = require('../middleware/authenticate');
+
 
 /**
  * @swagger
@@ -23,6 +25,8 @@ const jobSchema = require('../validation/jobValidation');
  *   post:
  *     summary: Create a new job
  *     tags: [Jobs]
+ *     security:
+ *     - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -40,6 +44,8 @@ const jobSchema = require('../validation/jobValidation');
  *   put:
  *     summary: Update a job
  *     tags: [Jobs]
+ *     security:
+ *     - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -58,6 +64,8 @@ const jobSchema = require('../validation/jobValidation');
  *   delete:
  *     summary: Delete a job
  *     tags: [Jobs]
+ *     security:
+ *     - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -70,8 +78,8 @@ const jobSchema = require('../validation/jobValidation');
  */
 
 router.get('/', jobsController.getJobs);
-router.post('/', validateRequest(jobSchema), jobsController.createJob);
-router.put('/:id', validateRequest(jobSchema), jobsController.updateJob);
-router.delete('/:id', jobsController.deleteJob);
+router.post('/', isAuthenticated, validateRequest(jobSchema), jobsController.createJob);
+router.put('/:id', isAuthenticated, validateRequest(jobSchema), jobsController.updateJob);
+router.delete('/:id', isAuthenticated, jobsController.deleteJob);
 
 module.exports = router;

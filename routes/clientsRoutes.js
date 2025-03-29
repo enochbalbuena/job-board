@@ -3,6 +3,8 @@ const router = express.Router();
 const clientsController = require('../controllers/clientsController');
 const validateRequest = require('../middleware/validateRequest');
 const clientSchema = require('../validation/clientValidation');
+const { isAuthenticated } = require('../middleware/authenticate');
+
 
 /**
  * @swagger
@@ -23,6 +25,8 @@ const clientSchema = require('../validation/clientValidation');
  *   post:
  *     summary: Create a new client
  *     tags: [Clients]
+ *     security:
+ *     - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -52,6 +56,8 @@ const clientSchema = require('../validation/clientValidation');
  *   put:
  *     summary: Update a client
  *     tags: [Clients]
+ *     security:
+ *     - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -70,6 +76,8 @@ const clientSchema = require('../validation/clientValidation');
  *   delete:
  *     summary: Delete a client
  *     tags: [Clients]
+ *     security:
+ *     - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -80,11 +88,10 @@ const clientSchema = require('../validation/clientValidation');
  *       200:
  *         description: Client deleted
  */
-
 router.get('/', clientsController.getClients);
 router.get('/:id', clientsController.getClientById);
-router.post('/', validateRequest(clientSchema), clientsController.createClient);
-router.put('/:id', validateRequest(clientSchema), clientsController.updateClient);
-router.delete('/:id', clientsController.deleteClient);
+router.post('/', isAuthenticated, validateRequest(clientSchema), clientsController.createClient);
+router.put('/:id', isAuthenticated, validateRequest(clientSchema), clientsController.updateClient);
+router.delete('/:id', isAuthenticated, clientsController.deleteClient);
 
 module.exports = router;

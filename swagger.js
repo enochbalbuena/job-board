@@ -22,6 +22,13 @@ const options = {
     basePath: '/',
     schemes: ['https', 'http'],
     components: {
+      securitySchemes: {
+        cookieAuth: {
+          type: 'apiKey',
+          in: 'cookie',
+          name: 'connect.sid'
+        }
+      },
       schemas: {
         Job: {
           type: 'object',
